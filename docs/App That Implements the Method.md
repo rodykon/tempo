@@ -5,19 +5,6 @@ There are a few parameters I considered when deciding upon the tech stack I was 
 3. Simplicity - This is a rather simple app and I wouldn't want to find myself flying through hoops just to get it above ground.
 
 
-Now, when the phrase "tech stack" is used, often what is meant is 
-* Front end
-* Back end
-* Database
-
-
-Following all of these considerations, these are my choices:
-
-| Category  | Technology | Rationale                                                                                                                                               |
-| --------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Front End | React      | I have some experience with Vue.js - however I've heard that React is a more common framework and this would be a good                                  |
-| Back End  | Django     | I am very familiar with Python, however I have never used Django before - so it'll be a good opportunity to learn a new framework that is very popular. |
-| Database  | Postgre    | Works well and is simple to use. Nothing much to say about this.                                                                                        |
 # API
 
 The basic version of the app will have the following API functions:

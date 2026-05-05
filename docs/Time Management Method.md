@@ -26,6 +26,7 @@ Besides setting a clear goal that is measurable, you should also set certain con
 3. I did not follow my plan.
 
 Regardless of which one it is - setting control points allows you to know that something is wrong relatively early.
+
 ## Step 2: Deriving Time Slots
 
 After setting your goals, you must decide how much time you're willing to spend on them. The way to do this according to this method, is by defining *habits*.
