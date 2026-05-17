@@ -1,22 +1,28 @@
-"""
-URL configuration for tempo project.
+import os
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
+from django.conf import settings
 from django.contrib import admin
-from django.urls import path
+from django.http import FileResponse, HttpResponse
+from django.urls import include, path
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+
+def spa(request, path=''):
+    index = settings.BASE_DIR / 'static' / 'frontend' / 'index.html'
+    if os.path.exists(index):
+        return FileResponse(open(index, 'rb'), content_type='text/html')
+    return HttpResponse(
+        '<p>Frontend not built. Run: <code>cd frontend && npm run build</code></p>',
+        status=503,
+    )
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include('habits.urls')),
+    path('api/auth/token/', TokenObtainPairView.as_view(), name='token-obtain'),
+    path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),
+    # Catch-all: let React Router handle all non-API paths
+    path('', spa),
+    path('<path:path>', spa),
 ]
