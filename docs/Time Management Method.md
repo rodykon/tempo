@@ -26,6 +26,7 @@ Besides setting a clear goal that is measurable, you should also set certain con
 3. I did not follow my plan.
 
 Regardless of which one it is - setting control points allows you to know that something is wrong relatively early.
+
 ## Step 2: Deriving Time Slots
 
 After setting your goals, you must decide how much time you're willing to spend on them. The way to do this according to this method, is by defining *habits*.
@@ -46,10 +47,12 @@ A few points before we continue:
 * The daily and weekly sessions should be short. If you make them two long you'll spend most of your time planning and not enough time working to achieve your goals!
 * During the sessions (specifically the review sessions) you must be brutally honest about your performance. Pretending there isn't a problem won't help you!
 ```
+
 ### Daily Planning Session
 During this session, 
 
 Daily planning sessions can be held either the morning of or the evening before the day that is being planned.
+
 ### Weekly Planning and Review Session
 There are two parts to this session: *review* and *planning*. During the review phase you analyze the previous week and ask yourself:
 * Did I manage to perform my habits as planned?

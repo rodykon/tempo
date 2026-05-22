@@ -61,6 +61,11 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
+# Build output — generated, do not commit
+frontend/dist/
+backend/static/frontend/
+backend/staticfiles/
+
 # Flask stuff:
 instance/
 .webassets-cache
@@ -136,6 +141,8 @@ celerybeat.pid
 
 # Environments
 .env
+.env.*
+!.env.example
 .envrc
 .venv
 env/
@@ -143,6 +150,17 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Private keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.cert
+*.crt
+
+# Node
+node_modules/
 
 # Spyder project settings
 .spyderproject
