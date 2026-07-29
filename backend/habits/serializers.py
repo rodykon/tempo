@@ -62,3 +62,4 @@ class HabitTimingSerializer(serializers.ModelSerializer):
 class HabitTimingUpdateSerializer(serializers.Serializer):
     time_remaining = serializers.IntegerField(min_value=0)
     is_running = serializers.BooleanField()
+    period_start = serializers.DateField(required=False)

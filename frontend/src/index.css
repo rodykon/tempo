@@ -22,6 +22,7 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 /* ── Layout ─────────────────────────────── */
@@ -30,6 +31,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .app-header {
@@ -38,8 +40,10 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 0 16px;
-  height: var(--header-h);
+  padding: env(safe-area-inset-top) 16px 0;
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+  height: calc(var(--header-h) + env(safe-area-inset-top));
   background: var(--primary);
   color: white;
   z-index: 10;
@@ -56,7 +60,11 @@ body {
   color: white;
   font-size: 1.4rem;
   cursor: pointer;
-  padding: 4px 8px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 4px;
   line-height: 1;
 }
@@ -84,6 +92,9 @@ body {
   transition: transform 0.25s ease;
   display: flex;
   flex-direction: column;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
   box-shadow: 4px 0 16px rgba(0,0,0,0.15);
 }
 
@@ -172,17 +183,19 @@ body {
 }
 
 .timer-display {
-  font-size: 5rem;
+  font-size: clamp(2.25rem, 11vw, 5rem);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.05em;
   color: var(--text);
-  padding: 24px 40px;
+  padding: clamp(16px, 4vw, 24px) clamp(16px, 6vw, 40px);
   border-radius: 20px;
   background: var(--surface);
   box-shadow: 0 4px 24px rgba(0,0,0,0.1);
   transition: box-shadow 0.15s;
   user-select: none;
+  max-width: 92vw;
+  text-align: center;
 }
 
 .timer-display.clickable {
@@ -194,16 +207,16 @@ body {
 }
 
 .timer-edit-input {
-  font-size: 5rem;
+  font-size: clamp(2.25rem, 11vw, 5rem);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.05em;
   color: var(--primary);
-  padding: 24px 40px;
+  padding: clamp(16px, 4vw, 24px) clamp(16px, 6vw, 40px);
   border-radius: 20px;
   border: 2px solid var(--primary);
   outline: none;
-  width: 420px;
+  width: min(420px, 92vw);
   text-align: center;
   background: var(--surface);
 }
@@ -238,7 +251,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding-bottom: 88px;
+  padding-bottom: calc(88px + env(safe-area-inset-bottom));
 }
 
 .section-title {
@@ -285,7 +298,11 @@ body {
   color: var(--muted);
   font-size: 1rem;
   cursor: pointer;
-  padding: 6px 8px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 6px;
   line-height: 1;
   flex-shrink: 0;
@@ -379,8 +396,8 @@ body {
 
 .fab {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  right: calc(24px + env(safe-area-inset-right));
   width: 56px;
   height: 56px;
   border-radius: 50%;
@@ -399,33 +416,6 @@ body {
 }
 
 .fab:active { transform: scale(0.94); }
-
-/* ── Create overlay ─────────────────────── */
-
-.create-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 40;
-}
-
-.create-card {
-  background: var(--surface);
-  border-radius: 16px 16px 0 0;
-  width: 100%;
-  max-width: 520px;
-  padding-top: 20px;
-}
-
-.create-card h2 {
-  padding: 0 16px 12px;
-  font-size: 1.1rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 4px;
-}
 
 /* ── About screen ───────────────────────── */
 
@@ -465,11 +455,16 @@ body {
 
 .login-screen {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--primary);
   padding: 20px;
+  padding-top: max(20px, env(safe-area-inset-top));
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
 }
 
 .login-card {
@@ -519,6 +514,46 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  min-height: 100dvh;
   color: var(--muted);
   font-size: 1.1rem;
+}
+
+.update-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: env(safe-area-inset-bottom);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--primary-dark);
+  color: white;
+  font-size: 0.9rem;
+}
+
+.update-banner button {
+  background: white;
+  color: var(--primary-dark);
+  border: none;
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pending-sync-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 500;
 }

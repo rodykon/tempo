@@ -46,8 +46,12 @@ class HabitTimingDetailView(generics.RetrieveAPIView):
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
 
-        timing.time_remaining = data['time_remaining']
-        timing.started_at = timezone.now() if data['is_running'] else None
-        timing.save()
+        stale_period = (
+            'period_start' in data and data['period_start'] != timing.period_start
+        )
+        if not stale_period:
+            timing.time_remaining = data['time_remaining']
+            timing.started_at = timezone.now() if data['is_running'] else None
+            timing.save()
 
         return Response(HabitTimingSerializer(timing).data)

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { clearToken } from '../api'
+import { clearTokens } from '../api'
 
 export default function SlideMenu({ open, onClose }) {
   const navigate = useNavigate()
@@ -10,7 +10,7 @@ export default function SlideMenu({ open, onClose }) {
   }
 
   function signOut() {
-    clearToken()
+    clearTokens()
     navigate('/login')
   }
 
