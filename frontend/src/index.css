@@ -5,15 +5,15 @@
 }
 
 :root {
-  --primary:      #4f46e5;
-  --primary-dark: #3730a3;
-  --green:        #16a34a;
-  --red:          #dc2626;
-  --bg:           #f8fafc;
+  --primary:      #7c6db3;
+  --primary-dark: #5f5390;
+  --green:        #a8d8b9;
+  --red:          #c97b7b;
+  --bg:           #f8f6fb;
   --surface:      #ffffff;
-  --border:       #e2e8f0;
-  --text:         #1e293b;
-  --muted:        #64748b;
+  --border:       #e7e1f0;
+  --text:         #453f58;
+  --muted:        #7d7590;
   --header-h:     56px;
 }
 

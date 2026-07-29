@@ -12,8 +12,8 @@ export default defineConfig({
         name: 'Tempo',
         short_name: 'Tempo',
         description: 'Time management, simplified.',
-        theme_color: '#4f46e5',
-        background_color: '#f8fafc',
+        theme_color: '#7c6db3',
+        background_color: '#f8f6fb',
         display: 'standalone',
         start_url: '/',
         icons: [
