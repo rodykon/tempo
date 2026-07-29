@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Menu, X, Plus } from 'lucide-react'
 import { api } from '../api'
 import SlideMenu from '../components/SlideMenu'
 
@@ -150,7 +151,7 @@ export default function ManageScreen() {
               className="delete-btn"
               onClick={e => { e.stopPropagation(); handleDelete(habit.id) }}
             >
-              ✕
+              <X size={18} />
             </button>
           </div>
         )}
@@ -162,12 +163,23 @@ export default function ManageScreen() {
     <div className="screen">
       <SlideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
       <header className="app-header">
-        <button className="icon-btn" onClick={() => setMenuOpen(true)}>☰</button>
+        <button className="icon-btn" onClick={() => setMenuOpen(true)}><Menu size={22} /></button>
         <h1>Manage Habits</h1>
       </header>
 
       <div className="manage-content">
-        {habits.length === 0 && (
+        {showCreate && (
+          <div className="manage-habit-item">
+            <HabitForm
+              form={createForm}
+              onChange={setCreateForm}
+              onSubmit={handleCreate}
+              onCancel={() => setShowCreate(false)}
+              submitLabel="Create"
+            />
+          </div>
+        )}
+        {habits.length === 0 && !showCreate && (
           <p className="empty-msg">No habits yet. Tap + to add your first one.</p>
         )}
         {daily.length > 0 && (
@@ -184,26 +196,19 @@ export default function ManageScreen() {
         )}
       </div>
 
-      {showCreate && (
-        <div className="create-overlay" onClick={e => { if (e.target === e.currentTarget) setShowCreate(false) }}>
-          <div className="create-card">
-            <h2>New Habit</h2>
-            <HabitForm
-              form={createForm}
-              onChange={setCreateForm}
-              onSubmit={handleCreate}
-              onCancel={() => setShowCreate(false)}
-              submitLabel="Create"
-            />
-          </div>
-        </div>
-      )}
-
       <button
         className="fab"
-        onClick={() => { setCreateForm(BLANK); setEditingId(null); setShowCreate(true) }}
+        onClick={() => {
+          if (showCreate) {
+            setShowCreate(false)
+          } else {
+            setCreateForm(BLANK)
+            setEditingId(null)
+            setShowCreate(true)
+          }
+        }}
       >
-        +
+        {showCreate ? <X size={26} /> : <Plus size={26} />}
       </button>
     </div>
   )

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Menu } from 'lucide-react'
 import SlideMenu from '../components/SlideMenu'
 
 export default function AboutScreen() {
@@ -8,7 +9,7 @@ export default function AboutScreen() {
     <div className="screen">
       <SlideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
       <header className="app-header">
-        <button className="icon-btn" onClick={() => setMenuOpen(true)}>☰</button>
+        <button className="icon-btn" onClick={() => setMenuOpen(true)}><Menu size={22} /></button>
         <h1>About</h1>
       </header>
       <div className="about-content">
