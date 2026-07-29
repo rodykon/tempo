@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { Menu, ArrowLeft, Play, Pause } from 'lucide-react'
 import { api } from '../api'
 import SlideMenu from '../components/SlideMenu'
+import PendingSyncBadge from '../components/PendingSyncBadge'
 
 function formatTime(seconds) {
   const h = Math.floor(seconds / 3600)
@@ -107,9 +109,10 @@ export default function TimingScreen() {
     <div className="screen">
       <SlideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
       <header className="app-header">
-        <button className="icon-btn" onClick={() => navigate('/')}>←</button>
+        <button className="icon-btn" onClick={() => navigate('/')}><ArrowLeft size={22} /></button>
         <h1>{habit?.name ?? 'Habit'}</h1>
-        <button className="icon-btn" style={{ marginLeft: 'auto' }} onClick={() => setMenuOpen(true)}>☰</button>
+        <PendingSyncBadge />
+        <button className="icon-btn" style={{ marginLeft: 'auto' }} onClick={() => setMenuOpen(true)}><Menu size={22} /></button>
       </header>
       <div className="timing-body">
         {editing ? (
@@ -139,7 +142,7 @@ export default function TimingScreen() {
           className={`play-pause-btn ${isRunning ? 'pause' : 'play'}`}
           onClick={handlePlayPause}
         >
-          {isRunning ? '⏸' : '▶'}
+          {isRunning ? <Pause size={28} fill="currentColor" /> : <Play size={28} fill="currentColor" />}
         </button>
 
         {habit && (

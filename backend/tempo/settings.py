@@ -16,6 +16,10 @@ ALLOWED_HOSTS = (
     else ['localhost', '127.0.0.1']
 )
 
+# Trust the X-Forwarded-Proto header set by the nginx reverse proxy so
+# request.is_secure() reports correctly when TLS is terminated at nginx.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

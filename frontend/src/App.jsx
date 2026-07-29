@@ -5,6 +5,7 @@ import MainScreen from './screens/MainScreen'
 import TimingScreen from './screens/TimingScreen'
 import ManageScreen from './screens/ManageScreen'
 import AboutScreen from './screens/AboutScreen'
+import UpdatePrompt from './components/UpdatePrompt'
 
 function RequireAuth({ children }) {
   return getToken() ? children : <Navigate to="/login" replace />
@@ -13,6 +14,7 @@ function RequireAuth({ children }) {
 export default function App() {
   return (
     <BrowserRouter>
+      <UpdatePrompt />
       <Routes>
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/" element={<RequireAuth><MainScreen /></RequireAuth>} />

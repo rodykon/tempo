@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Menu } from 'lucide-react'
 import { api } from '../api'
 import SlideMenu from '../components/SlideMenu'
+import PendingSyncBadge from '../components/PendingSyncBadge'
 
 function formatTime(seconds) {
   const h = Math.floor(seconds / 3600)
@@ -34,8 +36,9 @@ export default function MainScreen() {
     <div className="screen">
       <SlideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
       <header className="app-header">
-        <button className="icon-btn" onClick={() => setMenuOpen(true)}>☰</button>
+        <button className="icon-btn" onClick={() => setMenuOpen(true)}><Menu size={22} /></button>
         <h1>Tempo</h1>
+        <PendingSyncBadge />
       </header>
       <div className="habit-list">
         {habits.length === 0 && (

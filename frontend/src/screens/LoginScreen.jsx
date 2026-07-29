@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { api, setToken } from '../api'
+import { api, setTokens } from '../api'
 
 export default function LoginScreen() {
   const [username, setUsername] = useState('')
@@ -14,7 +14,7 @@ export default function LoginScreen() {
     try {
       const data = await api.login(username, password)
       if (data?.access) {
-        setToken(data.access)
+        setTokens(data.access, data.refresh)
         navigate('/')
       } else {
         setError('Invalid credentials.')
