@@ -39,6 +39,7 @@ export default function TimingScreen() {
   const [menuOpen, setMenuOpen]         = useState(false)
   const intervalRef  = useRef(null)
   const timeRef      = useRef(null)   // always-current value for async callbacks
+  const baseRef      = useRef(null)   // { remaining, timestamp } as of the last known-good sync
 
   useEffect(() => { timeRef.current = timeRemaining }, [timeRemaining])
 
@@ -53,27 +54,49 @@ export default function TimingScreen() {
       if (timingData) {
         setTimeRemaining(timingData.time_remaining)
         setIsRunning(timingData.is_running)
-        if (timingData.is_running) tick()
+        if (timingData.is_running) tick(timingData.time_remaining)
       }
     }
     load()
     return () => clearInterval(intervalRef.current)
   }, [id])
 
-  function tick() {
+  // setInterval is suspended by mobile browsers while the app is backgrounded
+  // or the phone sleeps, so ticks are computed from wall-clock elapsed time
+  // (not decremented one-by-one) — that way the display is correct as soon
+  // as ticking resumes, instead of picking up where it stalled.
+  function tick(startRemaining) {
     clearInterval(intervalRef.current)
+    baseRef.current = { remaining: startRemaining, timestamp: Date.now() }
     intervalRef.current = setInterval(() => {
-      setTimeRemaining(prev => {
-        if (prev <= 1) {
-          clearInterval(intervalRef.current)
-          setIsRunning(false)
-          api.updateTiming(id, { time_remaining: 0, is_running: false })
-          return 0
-        }
-        return prev - 1
-      })
+      const elapsed = Math.floor((Date.now() - baseRef.current.timestamp) / 1000)
+      const remaining = Math.max(0, baseRef.current.remaining - elapsed)
+      setTimeRemaining(remaining)
+      if (remaining <= 0) {
+        clearInterval(intervalRef.current)
+        setIsRunning(false)
+        api.updateTiming(id, { time_remaining: 0, is_running: false })
+      }
     }, 1000)
   }
+
+  // Re-sync with the server whenever the app regains the foreground: a
+  // suspended setInterval means the running total can be stale, and only the
+  // server knows if the period rolled over while the app was backgrounded.
+  useEffect(() => {
+    async function resync() {
+      if (document.visibilityState !== 'visible' || !isRunning) return
+      const timingData = await api.getTiming(id)
+      if (timingData) {
+        setTimeRemaining(timingData.time_remaining)
+        setIsRunning(timingData.is_running)
+        if (timingData.is_running) tick(timingData.time_remaining)
+        else clearInterval(intervalRef.current)
+      }
+    }
+    document.addEventListener('visibilitychange', resync)
+    return () => document.removeEventListener('visibilitychange', resync)
+  }, [id, isRunning])
 
   async function handlePlayPause() {
     if (isRunning) {
@@ -83,7 +106,7 @@ export default function TimingScreen() {
     } else {
       await api.updateTiming(id, { time_remaining: timeRef.current, is_running: true })
       setIsRunning(true)
-      tick()
+      tick(timeRef.current)
     }
   }
 
