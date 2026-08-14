@@ -37,6 +37,7 @@ pytest tests/test_habits.py::test_patch_habit
 | `tests/test_habits.py` | Habit CRUD, validation, per-user isolation |
 | `tests/test_timing.py` | Timer start/pause, period reset (daily and weekly) |
 | `tests/test_models.py` | Unit tests for `HabitTiming` model methods |
+| `tests/test_nginx_config.py` | nginx vhost config serves the app domain (server names, redirect, TLS cert paths) |
 
 ## Notes
 
