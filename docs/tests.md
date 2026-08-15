@@ -1,6 +1,8 @@
 # Running the Tests
 
-## Setup
+## Backend
+
+### Setup
 
 Install the test dependencies (once, with your venv active):
 
@@ -8,28 +10,28 @@ Install the test dependencies (once, with your venv active):
 pip install pytest pytest-django
 ```
 
-## Running all tests
+### Running all tests
 
 ```bash
 cd backend
 pytest
 ```
 
-## Running a single test file
+### Running a single test file
 
 ```bash
 cd backend
 pytest tests/test_habits.py
 ```
 
-## Running a single test
+### Running a single test
 
 ```bash
 cd backend
 pytest tests/test_habits.py::test_patch_habit
 ```
 
-## Test files
+### Test files
 
 | File | What it covers |
 |------|----------------|
@@ -38,6 +40,21 @@ pytest tests/test_habits.py::test_patch_habit
 | `tests/test_timing.py` | Timer start/pause, period reset (daily and weekly) |
 | `tests/test_models.py` | Unit tests for `HabitTiming` model methods |
 | `tests/test_nginx_config.py` | nginx vhost config serves the app domain (server names, redirect, TLS cert paths) |
+
+## Frontend
+
+Vitest with jsdom and React Testing Library.
+
+```bash
+cd frontend
+npm install     # once
+npm test        # all tests
+npx vitest run tests/ManageScreen.test.jsx   # single file
+```
+
+| File | What it covers |
+|------|----------------|
+| `tests/ManageScreen.test.jsx` | Manage Habits create/edit forms — field focus is not stolen while editing, edits save |
 
 ## Notes
 
