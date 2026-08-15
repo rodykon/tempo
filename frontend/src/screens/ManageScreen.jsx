@@ -81,6 +81,38 @@ function HabitForm({ form, onChange, onSubmit, onCancel, submitLabel }) {
   )
 }
 
+function HabitItem({ habit, isEditing, editForm, onEditFormChange, onStartEdit, onSave, onCancelEdit, onDelete }) {
+  return (
+    <div className="manage-habit-item">
+      {isEditing ? (
+        <HabitForm
+          form={editForm}
+          onChange={onEditFormChange}
+          onSubmit={onSave}
+          onCancel={onCancelEdit}
+          submitLabel="Save"
+        />
+      ) : (
+        <div className="manage-habit-row" onClick={() => onStartEdit(habit)}>
+          <div className="manage-habit-info">
+            <span className="manage-habit-name">{habit.name}</span>
+            {habit.description && (
+              <span className="manage-habit-desc">{habit.description}</span>
+            )}
+            <span className="manage-habit-meta">{minutesToHM(habit.time)} / {habit.period}</span>
+          </div>
+          <button
+            className="delete-btn"
+            onClick={e => { e.stopPropagation(); onDelete(habit.id) }}
+          >
+            <X size={18} />
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function ManageScreen() {
   const [habits, setHabits]       = useState([])
   const [menuOpen, setMenuOpen]   = useState(false)
@@ -126,36 +158,19 @@ export default function ManageScreen() {
   const daily  = habits.filter(h => h.period === 'daily')
   const weekly = habits.filter(h => h.period === 'weekly')
 
-  function HabitItem({ habit }) {
-    const isEditing = editingId === habit.id
+  function renderHabitItem(habit) {
     return (
-      <div className="manage-habit-item">
-        {isEditing ? (
-          <HabitForm
-            form={editForm}
-            onChange={setEditForm}
-            onSubmit={handleSave}
-            onCancel={() => setEditingId(null)}
-            submitLabel="Save"
-          />
-        ) : (
-          <div className="manage-habit-row" onClick={() => startEdit(habit)}>
-            <div className="manage-habit-info">
-              <span className="manage-habit-name">{habit.name}</span>
-              {habit.description && (
-                <span className="manage-habit-desc">{habit.description}</span>
-              )}
-              <span className="manage-habit-meta">{minutesToHM(habit.time)} / {habit.period}</span>
-            </div>
-            <button
-              className="delete-btn"
-              onClick={e => { e.stopPropagation(); handleDelete(habit.id) }}
-            >
-              <X size={18} />
-            </button>
-          </div>
-        )}
-      </div>
+      <HabitItem
+        key={habit.id}
+        habit={habit}
+        isEditing={editingId === habit.id}
+        editForm={editForm}
+        onEditFormChange={setEditForm}
+        onStartEdit={startEdit}
+        onSave={handleSave}
+        onCancelEdit={() => setEditingId(null)}
+        onDelete={handleDelete}
+      />
     )
   }
 
@@ -185,13 +200,13 @@ export default function ManageScreen() {
         {daily.length > 0 && (
           <section>
             <p className="section-title">Daily</p>
-            {daily.map(h => <HabitItem key={h.id} habit={h} />)}
+            {daily.map(renderHabitItem)}
           </section>
         )}
         {weekly.length > 0 && (
           <section>
             <p className="section-title">Weekly</p>
-            {weekly.map(h => <HabitItem key={h.id} habit={h} />)}
+            {weekly.map(renderHabitItem)}
           </section>
         )}
       </div>
