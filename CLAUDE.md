@@ -68,13 +68,16 @@ All routes are under `/api/` and require JWT Bearer auth (`IsAuthenticated` is t
 | GET | `/api/timing/` | List all timings (triggers `check_and_reset`) |
 | GET | `/api/timing/{habit_id}/` | Get one timing |
 | PUT | `/api/timing/{habit_id}/` | Update timing (`time_remaining`, `is_running`) |
+| GET | `/api/analytics/` | Per-user analytics (Big Picture + per-habit stats + weekly chart data); triggers `check_and_reset` on every timing first, same as `/api/timing/` |
+| DELETE | `/api/analytics/` | Delete all of this user's `HabitDailyRecord` rows (the "Reset Statistics" button) |
 
-All habit/timing queries are automatically scoped to `request.user`.
+All habit/timing/analytics queries are automatically scoped to `request.user`.
 
 ### Period Reset Logic
 
 - **Daily**: resets at midnight UTC (`period_start = today`).
 - **Weekly**: resets each Sunday. Formula: `today - timedelta(days=(today.weekday() + 1) % 7)`.
+- **Analytics collection** runs as the first statement of `check_and_reset()`, i.e. strictly before a reset can wipe `time_remaining` — `HabitTiming.record_completed_days()` writes one `HabitDailyRecord` per completed day (both daily and weekly habits) using a rolling baseline (`last_recorded_date`/`last_recorded_remaining`) so day-over-day `time_spent` stays correct across resets, backfills up to `MAX_BACKFILL_DAYS` for a long-dormant habit, and is a no-op (no query, no write) once already caught up through yesterday.
 
 ### CORS
 

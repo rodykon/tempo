@@ -10,4 +10,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('timing/', views.HabitTimingListView.as_view(), name='timing-list'),
     path('timing/<int:habit_id>/', views.HabitTimingDetailView.as_view(), name='timing-detail'),
+    path('analytics/', views.AnalyticsView.as_view(), name='analytics'),
 ]
