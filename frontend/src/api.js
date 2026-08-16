@@ -258,4 +258,7 @@ export const api = {
       throw err
     }
   },
+
+  getAnalytics: () => request('GET', '/analytics/'),
+  resetAnalytics: () => request('DELETE', '/analytics/'),
 }

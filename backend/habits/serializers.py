@@ -29,6 +29,12 @@ class HabitSerializer(serializers.ModelSerializer):
             habit=habit,
             time_remaining=habit.time * 60,
             period_start=period_start,
+            # Recording starts the day *after* creation, so the creation
+            # day itself gets recorded once it completes -- but nothing
+            # earlier is backfilled (a weekly habit created mid-week must
+            # not phantom-record days before it existed).
+            last_recorded_date=today - datetime.timedelta(days=1),
+            last_recorded_remaining=habit.time * 60,
         )
         return habit
 
@@ -39,6 +45,7 @@ class HabitSerializer(serializers.ModelSerializer):
         if new_time is not None and new_time != old_time:
             habit.timing.time_remaining = new_time * 60
             habit.timing.started_at = None
+            habit.timing.last_recorded_remaining = new_time * 60
             habit.timing.save()
         return habit
 

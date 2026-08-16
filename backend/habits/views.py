@@ -1,8 +1,10 @@
 from django.utils import timezone
-from rest_framework import generics, permissions, viewsets
+from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .models import Habit, HabitTiming
+from .analytics import build_analytics
+from .models import Habit, HabitDailyRecord, HabitTiming
 from .serializers import HabitSerializer, HabitTimingSerializer, HabitTimingUpdateSerializer
 
 
@@ -55,3 +57,17 @@ class HabitTimingDetailView(generics.RetrieveAPIView):
             timing.save()
 
         return Response(HabitTimingSerializer(timing).data)
+
+
+class AnalyticsView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        timings = HabitTiming.objects.filter(habit__user=request.user).select_related('habit')
+        for timing in timings:
+            timing.check_and_reset()
+        return Response(build_analytics(request.user))
+
+    def delete(self, request):
+        HabitDailyRecord.objects.filter(user=request.user).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
