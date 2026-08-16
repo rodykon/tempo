@@ -451,6 +451,144 @@ body {
 
 .logout-btn:hover { background: #fecaca; }
 
+/* ── Analytics screen ───────────────────── */
+
+.analytics-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
+}
+
+.stat-card {
+  background: var(--surface);
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.stat-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stat-sub {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.habit-select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.habit-select:focus { border-color: var(--primary); }
+
+.week-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.weekly-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.weekly-chart svg { width: 100%; height: auto; }
+
+.weekly-chart-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  list-style: none;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.danger-btn {
+  margin-top: 8px;
+  padding: 10px 20px;
+  background: #fee2e2;
+  color: var(--red);
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background 0.15s;
+}
+
+.danger-btn:hover { background: #fecaca; }
+
+.confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 40;
+}
+
+.confirm-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(340px, 88vw);
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  z-index: 41;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.confirm-modal p { line-height: 1.5; }
+
+.confirm-actions { display: flex; gap: 8px; }
+
+.confirm-cancel {
+  background: var(--border);
+  color: var(--text);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.confirm-danger {
+  background: var(--red);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 /* ── Login screen ───────────────────────── */
 
 .login-screen {
